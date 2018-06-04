@@ -220,7 +220,13 @@ namespace SimpleWeb {
       };
 
       std::list<SendData> send_queue;
+      
+      public:
+      /// exposes the number of packets waiting to be sent over the network.
+      inline int GetPendingBufferCount() { return send_queue.size(); }
 
+      private: 
+      
       void send_from_queue() {
         auto self = this->shared_from_this();
         strand.post([self]() {
@@ -803,9 +809,6 @@ namespace SimpleWeb {
   class SocketServer<WS> : public SocketServerBase<WS> {
   public:
     SocketServer() noexcept : SocketServerBase<WS>(80) {}
-
-    /// exposes the number of packets waiting to be sent over the network.
-    inline int GetPendingBufferCount() { return send_queue.size(); }
     
   protected:
     void accept() override {
