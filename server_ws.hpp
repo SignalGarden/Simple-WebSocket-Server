@@ -804,6 +804,9 @@ namespace SimpleWeb {
   public:
     SocketServer() noexcept : SocketServerBase<WS>(80) {}
 
+    /// exposes the number of packets waiting to be sent over the network.
+    inline int GetPendingBufferCount() { return send_queue.size(); }
+    
   protected:
     void accept() override {
       std::shared_ptr<Connection> connection(new Connection(handler_runner, config.timeout_idle, *io_service));
